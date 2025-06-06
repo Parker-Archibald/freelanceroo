@@ -56,7 +56,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { getProjectById } from "@/app/api/getProjectById/[...id]/route"
 import { Project } from "@/lib/types"
 import Loader from "@/components/Loader"
 
@@ -136,16 +135,16 @@ export default function ProjectPage() {
 
   const [isEditing, setIsEditing] = useState(false)
 
-  // const [projectDetails, setProjectDetails] = useState<ProjectDetails>({
-  //   description: "This project involves a complete redesign of the company's website using modern design principles and the latest web technologies. The goal is to improve user experience, increase engagement, and boost conversion rates.",
-  //   startDate: "2024-04-01",
-  //   endDate: "2024-06-30",
-  //   budget: "$25,000",
-  //   team: ["John Doe", "Jane Smith", "Mike Johnson"],
-  //   status: "in-progress",
-  //   progress: 65,
-  //   color: "hsl(var(--chart-1))",
-  // })
+  const [projectDetails, setProjectDetails] = useState<ProjectDetails>({
+    description: "This project involves a complete redesign of the company's website using modern design principles and the latest web technologies. The goal is to improve user experience, increase engagement, and boost conversion rates.",
+    startDate: "2024-04-01",
+    endDate: "2024-06-30",
+    budget: "$25,000",
+    team: ["John Doe", "Jane Smith", "Mike Johnson"],
+    status: "in-progress",
+    progress: 65,
+    color: "hsl(var(--chart-1))",
+  })
 
   // const [customerContact, setCustomerContact] = useState<CustomerContact>({
   //   name: "Sarah Wilson",
@@ -246,8 +245,10 @@ export default function ProjectPage() {
     setIsLoading(true)
     const getData = async () => {
       if (id) {
-        const results = await getProjectById(id);
-        setProject(results)
+        const results = await fetch(`/api/getProjectById/${'123'}`)
+        const data = await results.json();
+
+        setProject(data.data)
 
         setIsLoading(false)
       }

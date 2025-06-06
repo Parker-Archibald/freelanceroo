@@ -66,37 +66,3 @@ export async function GET(req: NextRequest) {
 
 }
 
-
-
-// export const getAllProjects = async () => {
-//     const data = await getDocs(query(collection(db, 'Projects'), where('user_id', '==', '123')))
-//     const results = data.docs;
-
-//     let arr: {
-//         id: string;
-//         title: string;
-//         description: string;
-//         user_ids: number[];
-//         timeline_end: string;
-//         status: 'in_progress' | 'applied' | 'complete';
-//         color: string;
-//     }[] = [];
-
-//     results.forEach(item => {
-
-//         const snap = item.data()
-//         const date = new Date(snap.timeline_end.seconds * 1000 + snap.timeline_end.nanoseconds / 1000000)
-
-//         arr.push({
-//             id: item.id,
-//             title: snap.project_name,
-//             description: snap.description,
-//             user_ids: snap.team_member_ids,
-//             timeline_end: date.toLocaleDateString(),
-//             status: snap.status,
-//             color: snap.color
-//         })
-//     })
-
-//     return arr
-// }
