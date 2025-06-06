@@ -31,14 +31,17 @@ export default function Home() {
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true)
-      const results = await getProjectsSimple()
+      const results = await fetch(`http://localhost:3000/api/getProjectsSimple/${'123'}`)
+      const data = await results.json();
 
-      setProjects(results.results)
+      const finData = data.data
+
+      setProjects(data.data.results)
 
       let inProgressCounter = 0
       let completedCounter = 0
 
-      results.results.forEach((proj: { status: string, id: string }) => {
+      finData.results.forEach((proj: { status: string, id: string }) => {
         if (proj.status === 'in_progress') {
           inProgressCounter++
         }
@@ -174,7 +177,6 @@ export default function Home() {
                 {/* Today Widget */}
 
                 <Today p={projects} t={taskPerUser} />
-
 
                 <UrgentTasks />
 

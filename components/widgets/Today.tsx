@@ -194,6 +194,7 @@ export default function Today({ p, t }: Props) {
                                         })}
                                     </motion.span>
                                 </div>
+
                                 {allTasks?.map((task: { projId: string, completed_tasks: number, totalTasks: number }, index: number) => {
                                     if (task.projId === project.id) {
                                         if (task.totalTasks > 0) {
