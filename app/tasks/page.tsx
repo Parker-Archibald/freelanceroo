@@ -58,6 +58,8 @@ export default function AllTaskPage() {
   const [activeTab, setActiveTab] = useState("allTasks")
   const [isLoading, setIsLoading] = useState(true)
   const [loaded, setLoaded] = useState(false)
+  const [isDeleteTaskOpen, setIsDeleteTaskOpen] = useState<boolean>(false)
+  const [taskId, setTaskId] = useState<string>('')
 
   const [allTasks, setAllTasks] = useState<any>()
   const { toast } = useToast()
@@ -122,23 +124,6 @@ export default function AllTaskPage() {
     showSuccessToast()
   }
 
-  // const sortedTasks = [...allTasks].sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime())
-
-  // const container = {
-  //   hidden: { opacity: 0 },
-  //   visible: {
-  //     opacity: 1,
-  //     transition: {
-  //       staggerChildren: 0.1,
-  //       delayChildren: 0.2
-  //     }
-  //   }
-  // }
-
-  // const item = {
-  //   hidden: { opacity: 0, y: 20 },
-  //   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
-  // }
 
   const CalendarView = () => (
     <>
@@ -206,7 +191,7 @@ export default function AllTaskPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => { setTaskId(task.id); setIsDeleteTaskOpen(true) }}>Delete</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -235,6 +220,7 @@ export default function AllTaskPage() {
               </motion.div>
             </ScrollArea>
           </div>
+          <DeleteTaskDialog taskId={taskId} isOpen={isDeleteTaskOpen} repull={() => getData()} handleClose={() => setIsDeleteTaskOpen(false)} />
         </motion.div>
 
         {/* Right Section with Calendar */}

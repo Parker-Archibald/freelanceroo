@@ -1,4 +1,4 @@
-import { deleteTaskById } from "@/app/api/deleteTask/route";
+import { deleteTaskById } from "@/app/api/deleteTask/[...id]/route";
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
@@ -32,17 +32,17 @@ export default function DeleteTaskDialog({ taskId, isOpen, handleClose, repull }
                     <span>Task Deleted!</span>
                 </div>
             ),
-            description: "Your action was completed successfully.",
+            description: "Task Successfully deleted.",
         })
     }
 
-    const showErrorToast = (e) => {
+    const showErrorToast = (err) => {
         toast({
             variant: "destructive",
             title: (
                 <div className="flex items-center gap-2">
                     <AlertCircle className="h-4 w-4" />
-                    <span>There was an error! {e}</span>
+                    <span>There was an error! {err}</span>
                 </div>
             ),
             description: "There was a problem with your request.",
@@ -50,16 +50,25 @@ export default function DeleteTaskDialog({ taskId, isOpen, handleClose, repull }
     }
 
     const handleDelete = async () => {
-        const d = await deleteTaskById(taskId)
+        const res = await fetch(`http://localhost:3000/api/deleteTask/${taskId}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: taskId })
+        });
 
-        if (d) {
-            showSuccessToast()
+        if (res.status === 200) {
             repull()
+            handleClose()
+            showSuccessToast()
         }
         else {
-            console.log(d)
-            showErrorToast(d)
+            showErrorToast(res.statusText)
+            handleClose()
         }
+
+
     }
 
     return (
@@ -72,7 +81,7 @@ export default function DeleteTaskDialog({ taskId, isOpen, handleClose, repull }
                 <Separator />
 
                 <DialogFooter >
-                    <Button variant={'destructive'} className="w-1/2 mx-auto" onClick={handleDelete}>
+                    <Button variant={'destructive'} className="w-1/2 mx-auto" onClick={(e) => { e.preventDefault(); handleDelete() }}>
                         Delete
                     </Button>
                 </DialogFooter>
