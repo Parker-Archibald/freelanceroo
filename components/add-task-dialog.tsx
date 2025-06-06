@@ -37,7 +37,6 @@ import { cn } from "@/lib/utils"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { getAllProjects } from "@/app/api/getProjects/route"
 import { addTask } from "@/app/api/updateTasks/route"
 import { getTodoColumn } from "@/app/api/kanban/route"
 
@@ -129,8 +128,9 @@ export function AddTaskDialog({ open, onOpenChange, repull }: AddTaskDialogProps
   useEffect(() => {
     if (open) {
       const getData = async () => {
-        const projectList = await getAllProjects()
-        setProjects(projectList)
+        const projectList = await fetch(`/api/getAllProjects/${'123'}`)
+        const data = await projectList.json();
+        setProjects(data.data)
 
         const todoColumn = await getTodoColumn('123')
         setTodoColumnId(todoColumn)

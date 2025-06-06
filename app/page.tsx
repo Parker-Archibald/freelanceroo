@@ -9,11 +9,9 @@ import { motion } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { AlertCircle, CheckCircle, Info, Router } from "lucide-react"
 import { useEffect, useState } from "react"
-import { getProjectsSimple } from "./api/getProjects/route"
 import { Projects, Task } from "@/lib/types"
 import { redirect } from "next/navigation"
 import Loader from "@/components/Loader"
-import { getTasksByProjectId, getTasksByUser } from "./api/getTasks/route"
 import TotalProjectsBanner from "@/components/widgets/TotalProjectsBanner"
 import Today from '../components/widgets/Today'
 import UrgentTasks from "@/components/widgets/urgent-tasks"
@@ -31,7 +29,7 @@ export default function Home() {
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true)
-      const results = await fetch(`http://localhost:3000/api/getProjectsSimple/${'123'}`)
+      const results = await fetch(`/api/getProjectsSimple/${'123'}`)
       const data = await results.json();
 
       const finData = data.data
@@ -58,8 +56,9 @@ export default function Home() {
     }
 
     const getTasks = async (id: string) => {
-      const results = await getTasksByUser(id)
-      setTaskPerUser(results)
+      const results = await fetch(`/api/getTasks/getTasksByUser/${id}`)
+      const data = await results.json();
+      setTaskPerUser(data.data)
       setTimeout(() => {
         setIsLoading(false)
       }, 2500)
@@ -132,8 +131,9 @@ export default function Home() {
   }
 
   const repullTasks = async (id: string) => {
-    const results = await getTasksByUser(id)
-    setTaskPerUser(results)
+    const results = await fetch(`http://localhost:3000/api/getTasks/getTasksByUser/${id}`)
+    const data = await results.json();
+    setTaskPerUser(data.data)
     setTimeout(() => {
       setIsLoading(false)
     }, 2500)

@@ -33,7 +33,6 @@ export async function GET(req: NextRequest) {
         }[] = [{ title: "All Projects", href: "/projects", color: "" },]
 
         results.forEach((item, i) => {
-            console.log(item.data())
             let info: {
                 description: string
                 timeline_start: Timestamp;

@@ -56,7 +56,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { getProjectById } from "@/app/api/getProjects/route"
+import { getProjectById } from "@/app/api/getProjectById/[...id]/route"
 import { Project } from "@/lib/types"
 import Loader from "@/components/Loader"
 

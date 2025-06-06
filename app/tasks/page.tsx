@@ -23,7 +23,6 @@ import { PageTransition } from "@/components/page-transition"
 import { motion } from "framer-motion"
 import { useToast } from "@/hooks/use-toast"
 import { AlertCircle, CheckCircle, Info } from "lucide-react"
-import { getTasksByUser } from "../api/getTasks/route"
 import { useSession } from "next-auth/react"
 import { redirect } from "next/navigation"
 import { toggleTaskStatus } from "../api/updateTasks/route"
@@ -73,9 +72,10 @@ export default function AllTaskPage() {
   }, [])
 
   const getData = async () => {
-    const tasks = await getTasksByUser('123')
+    const tasks = await fetch(`/api/getTasks/getTasksByUser/${'123'}`)
+    const data = await tasks.json();
 
-    setAllTasks(tasks)
+    setAllTasks(data.data)
     setTimeout(() => {
       setIsLoading(false)
     }, 500)
@@ -100,9 +100,10 @@ export default function AllTaskPage() {
   const toggleTask = async (taskId: string) => {
 
     await toggleTaskStatus(taskId)
-    const tasks = await getTasksByUser('123')
+    const tasks = await fetch(`/api/getTasks/getTasksByUser/${'123'}`)
+    const data = await tasks.json();
 
-    setAllTasks(tasks)
+    setAllTasks(data.data)
   }
 
   const isOverdue = (dueDate: Date) => {

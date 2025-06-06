@@ -24,7 +24,7 @@ import {
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { db } from "@/firebase"
 import { Projects } from '@/lib/types'
-import { getProjectsSimple } from "@/app/api/getProjects/route"
+import { getProjectsSimple } from "@/app/api/getProjectById/[...id]/route"
 
 interface NavItem {
   title: string
@@ -103,11 +103,12 @@ export function SideNav({ isOpen, onOpenChange }: SideNavProps) {
     // getProjects()
 
     const testGetProj = async () => {
-      const results = await getProjectsSimple()
+      const results = await fetch(`/api/getProjectsSimple/${'123'}`)
+      const data = await results.json()
 
-      setAllProjects(results.results)
+      setAllProjects(data.data.results)
 
-      defaultSecondaryNavItems[0].submenu = results.displayItems;
+      defaultSecondaryNavItems[0].submenu = data.data.displayItems;
       setSecondaryNavItems(defaultSecondaryNavItems)
     }
 
