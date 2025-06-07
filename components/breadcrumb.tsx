@@ -20,7 +20,7 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
 
 export function Breadcrumb() {
   const pathname = usePathname()
-  const breadcrumbs = generateBreadcrumbs(pathname)
+  const breadcrumbs = generateBreadcrumbs(decodeURI(pathname))
 
   if (pathname === '/') return null
 
@@ -38,9 +38,8 @@ export function Breadcrumb() {
           <ChevronRight className="h-4 w-4 mx-1" />
           <Link
             href={breadcrumb.href}
-            className={`hover:text-foreground transition-colors ${
-              index === breadcrumbs.length - 1 ? "text-foreground font-medium" : ""
-            }`}
+            className={`hover:text-foreground transition-colors ${index === breadcrumbs.length - 1 ? "text-foreground font-medium" : ""
+              }`}
           >
             {breadcrumb.label}
           </Link>

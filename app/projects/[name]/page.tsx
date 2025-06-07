@@ -245,10 +245,11 @@ export default function ProjectPage() {
     setIsLoading(true)
     const getData = async () => {
       if (id) {
-        const results = await fetch(`/api/getProjectById/${'123'}`)
+        const results = await fetch(`/api/getProjectById/${id}`)
         const data = await results.json();
 
         setProject(data.data)
+        // console.log(data.data)
 
         setIsLoading(false)
       }
